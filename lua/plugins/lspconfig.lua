@@ -126,30 +126,35 @@ return { -- LSP Configuration & Plugins
 		--  - settings (table): Override the default settings passed when initializing the server.
 		--        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
 		local servers = {
-			-- clangd = {},
-			-- gopls = {},
-			-- pyright = {},
-			-- rust_analyzer = {},
-			-- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
-			--
-			-- Some languages (like typescript) have entire language plugins that can be useful:
-			--    https://github.com/pmizio/typescript-tools.nvim
-			--
-			-- But for many setups, the LSP (`tsserver`) will work just fine
-			-- tsserver = {},
-			--
+			-- Ruby/Rails development
+			ruby_lsp = {},
+			-- solargraph = {}, -- alternative Ruby LSP if ruby_lsp doesn't work well
+
+			-- Web development
+			ts_ls = {},
+			html = {},
+			cssls = {},
+			jsonls = {},
+			tailwindcss = {},
+
+			-- YAML (useful for Rails config, GitHub Actions, etc.)
+			yamlls = {
+				settings = {
+					yaml = {
+						keyOrdering = false,
+					},
+				},
+			},
+
+			-- Bash/Shell scripts
+			bashls = {},
 
 			lua_ls = {
-				-- cmd = {...},
-				-- filetypes = { ...},
-				-- capabilities = {},
 				settings = {
 					Lua = {
 						completion = {
 							callSnippet = "Replace",
 						},
-						-- You can toggle below to ignore Lua_LS's noisy `missing-fields` warnings
-						-- diagnostics = { disable = { 'missing-fields' } },
 					},
 				},
 			},
@@ -167,7 +172,12 @@ return { -- LSP Configuration & Plugins
 		-- for you, so that they are available from within Neovim.
 		local ensure_installed = vim.tbl_keys(servers or {})
 		vim.list_extend(ensure_installed, {
-			"stylua", -- Used to format Lua code
+			"stylua", -- Lua formatter
+			"prettier", -- JS/TS/CSS/HTML formatter
+			"rubocop", -- Ruby linter/formatter
+			"erb-lint", -- ERB linter
+			"shellcheck", -- Shell script linter
+			"hadolint", -- Dockerfile linter
 		})
 		require("mason-tool-installer").setup({ ensure_installed = ensure_installed })
 

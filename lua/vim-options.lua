@@ -111,6 +111,39 @@ vim.keymap.set("n", "<C-l>", "<C-w><C-l>", { desc = "Move focus to the right win
 vim.keymap.set("n", "<C-j>", "<C-w><C-j>", { desc = "Move focus to the lower window" })
 vim.keymap.set("n", "<C-k>", "<C-w><C-k>", { desc = "Move focus to the upper window" })
 
+-- [[ Claude Code Workflow Keymaps ]]
+-- Copy current file path (relative to git root)
+vim.keymap.set("n", "<leader>yp", function()
+  local path = vim.fn.expand("%:.")
+  vim.fn.setreg("+", path)
+  print("Copied: " .. path)
+end, { desc = "Yank file path (relative)" })
+
+-- Copy file path with line number (for Claude Code references)
+vim.keymap.set("n", "<leader>yl", function()
+  local path = vim.fn.expand("%:.") .. ":" .. vim.fn.line(".")
+  vim.fn.setreg("+", path)
+  print("Copied: " .. path)
+end, { desc = "Yank file:line reference" })
+
+-- Copy file path with line range (visual mode)
+vim.keymap.set("v", "<leader>yl", function()
+  local start_line = vim.fn.line("v")
+  local end_line = vim.fn.line(".")
+  if start_line > end_line then
+    start_line, end_line = end_line, start_line
+  end
+  local path = vim.fn.expand("%:.") .. ":" .. start_line .. "-" .. end_line
+  vim.fn.setreg("+", path)
+  print("Copied: " .. path)
+end, { desc = "Yank file:line-range reference" })
+
+-- Copy entire buffer content
+vim.keymap.set("n", "<leader>ya", function()
+  vim.cmd("%y+")
+  print("Copied entire buffer")
+end, { desc = "Yank entire buffer" })
+
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
 
