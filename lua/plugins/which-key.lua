@@ -7,11 +7,9 @@ return {
 
 		-- Register group labels
 		wk.add({
-			{ "<leader>c", group = "Claude Code" },
 			{ "<leader>e", group = "Edit (Rails)" },
 			{ "<leader>r", group = "Rails/Rename" },
 			{ "<leader>t", group = "Test/Toggle" },
-			{ "<leader>y", group = "Yank/Copy" },
 			{ "<leader>s", group = "Search" },
 			{ "<leader>d", group = "Document" },
 			{ "<leader>w", group = "Workspace" },
