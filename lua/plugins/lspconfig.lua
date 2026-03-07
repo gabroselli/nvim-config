@@ -126,10 +126,7 @@ return { -- LSP Configuration & Plugins
 		--  - settings (table): Override the default settings passed when initializing the server.
 		--        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
 		local servers = {
-			-- Ruby/Rails development
-			ruby_lsp = {},
-			-- solargraph = {}, -- alternative Ruby LSP if ruby_lsp doesn't work well
-
+	
 			-- Web development
 			ts_ls = {},
 			html = {},
