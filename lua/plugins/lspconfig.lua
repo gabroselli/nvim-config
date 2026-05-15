@@ -126,7 +126,12 @@ return { -- LSP Configuration & Plugins
 		--  - settings (table): Override the default settings passed when initializing the server.
 		--        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
 		local servers = {
-	
+
+			-- Ruby — runs inside the Docker container when available
+			ruby_lsp = {
+				cmd = { vim.fn.expand("~/.local/bin/ruby-lsp-docker") },
+			},
+
 			-- Web development
 			ts_ls = {},
 			html = {},
