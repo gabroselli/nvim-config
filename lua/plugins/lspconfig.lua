@@ -139,14 +139,21 @@ return { -- LSP Configuration & Plugins
 			jsonls = {},
 			tailwindcss = {},
 
-			-- YAML (useful for Rails config, GitHub Actions, etc.)
+			-- YAML with Kubernetes schema support
 			yamlls = {
 				settings = {
 					yaml = {
 						keyOrdering = false,
+						schemas = {
+							["https://json.schemastore.org/github-workflow.json"] = "/.github/workflows/*",
+							["https://raw.githubusercontent.com/instrumenta/kubernetes-json-schema/master/v1.18.0-standalone-strict/all.json"] = "/*.k8s.yaml",
+						},
 					},
 				},
 			},
+
+			-- Python
+			pyright = {},
 
 			-- Bash/Shell scripts
 			bashls = {},
@@ -174,12 +181,13 @@ return { -- LSP Configuration & Plugins
 		-- for you, so that they are available from within Neovim.
 		local ensure_installed = vim.tbl_keys(servers or {})
 		vim.list_extend(ensure_installed, {
-			"stylua", -- Lua formatter
-			"prettier", -- JS/TS/CSS/HTML formatter
-			"rubocop", -- Ruby linter/formatter
-			"erb-lint", -- ERB linter
-			"shellcheck", -- Shell script linter
-			"hadolint", -- Dockerfile linter
+			"stylua",
+			"prettier",
+			"rubocop",
+			"erb-lint",
+			"shellcheck",
+			"hadolint",
+			"ruff",
 		})
 		require("mason-tool-installer").setup({ ensure_installed = ensure_installed })
 
