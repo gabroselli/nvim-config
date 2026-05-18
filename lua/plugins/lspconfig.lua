@@ -201,6 +201,7 @@ return { -- LSP Configuration & Plugins
 					server.capabilities = vim.tbl_deep_extend("force", {}, capabilities, server.capabilities or {})
 					require("lspconfig")[server_name].setup(server)
 				end,
+				stylua = function() end,
 			},
 		})
 	end,
