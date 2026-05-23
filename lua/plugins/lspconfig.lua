@@ -138,6 +138,7 @@ return { -- LSP Configuration & Plugins
 			cssls = {},
 			jsonls = {},
 			tailwindcss = {},
+			ember = {},
 
 			-- YAML with Kubernetes schema support
 			yamlls = {
