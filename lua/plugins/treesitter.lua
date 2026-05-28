@@ -1,8 +1,10 @@
 return {
 	"nvim-treesitter/nvim-treesitter",
+	branch = "main",
+	lazy = false, -- main branch does not support lazy-loading
 	build = ":TSUpdate",
-	opts = {
-		ensure_installed = {
+	config = function()
+		local ensure_installed = {
 			"bash",
 			"c",
 			"diff",
@@ -23,17 +25,25 @@ return {
 			"vim",
 			"vimdoc",
 			"yaml",
-		},
-		auto_install = true,
-		highlight = {
-			enable = true,
-		},
-		indent = {
-			enable = true,
-		},
-	},
-	config = function(_, opts)
-		require("nvim-treesitter.install").prefer_git = true
-		require("nvim-treesitter.configs").setup(opts)
+		}
+
+		require("nvim-treesitter").install(ensure_installed)
+
+		-- Enable highlighting (and experimental indent) per buffer. On the main
+		-- branch there is no `highlight`/`indent` option table; you start the
+		-- features yourself via a FileType autocommand.
+		vim.api.nvim_create_autocmd("FileType", {
+			callback = function(args)
+				-- Only start if a parser is available for this buffer's language.
+				local ft = vim.bo[args.buf].filetype
+				local lang = vim.treesitter.language.get_lang(ft)
+				if not (lang and vim.treesitter.language.add(lang)) then
+					return
+				end
+
+				pcall(vim.treesitter.start, args.buf, lang)
+				vim.bo[args.buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+			end,
+		})
 	end,
 }
